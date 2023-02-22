@@ -1,8 +1,28 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Register from "../components/Register.vue";
+
+const routes = [
+  {
+    path: "/register",
+    name: "register",
+    component: Register,
+  },
+  {
+    path: "/",
+    name: "*",
+    component: () => import("../components/Home.vue"),
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: () => import("../components/Home.vue"),
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  routes,
+  linkExactActiveClass: "text-yellow-500",
 });
 
 export default router;

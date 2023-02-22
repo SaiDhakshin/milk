@@ -16,3 +16,11 @@
 .banner-item {
   width: 100%;
 }
+
+.space-m {
+  margin: 0.3vw;
+}
+
+.space-px {
+  padding: 0.7vw;
+}

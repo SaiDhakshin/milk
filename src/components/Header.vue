@@ -109,10 +109,11 @@
             class="text-base font-medium text-gray-500 hover:text-gray-900"
             >Home</a
           >
-          <a
-            href="#"
+
+          <RouterLink
             class="text-base font-medium text-gray-500 hover:text-gray-900"
-            >About</a
+            to="about"
+            >About</RouterLink
           >
           <a
             href="#"
@@ -216,6 +217,7 @@
             >Sign in</a
           > -->
           <a
+            @click="toggleModal"
             href="#"
             class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
             >Log In</a
@@ -320,6 +322,8 @@
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import useModalStore from "../stores/counter";
 import {
   Popover,
   PopoverButton,
@@ -344,6 +348,9 @@ import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 export default {
   name: "Header",
+  computed: {
+    ...mapStores(useModalStore),
+  },
   components: {
     Popover,
     PopoverPanel,
@@ -432,6 +439,12 @@ export default {
         { id: 3, name: "Improve your customer experience", href: "#" },
       ],
     };
+  },
+  methods: {
+    toggleModal() {
+      this.modalStore.isOpen = !this.modalStore.isOpen;
+      console.log(this.modalStore.isOpen);
+    },
   },
 };
 </script>
