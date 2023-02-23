@@ -50,18 +50,22 @@
                     <h2
                       class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
                     >
-                      Sign in to your account
+                      Log in to your account
                     </h2>
                     <div class="mt-2">
-                      <form class="mt-8 space-y-6" action="#" method="POST">
+                      <vee-form
+                        @submit="onLog"
+                        class="mt-8 space-y-6"
+                        action="#"
+                        method="POST"
+                      >
                         <input type="hidden" name="remember" value="true" />
                         <div class="-space-y-px rounded-md shadow-sm">
                           <div>
-                            <label for="email-address" class="sr-only"
+                            <label for="email" class="sr-only"
                               >Email address</label
                             >
-                            <input
-                              id="email-address"
+                            <vee-field
                               name="email"
                               type="email"
                               autocomplete="email"
@@ -74,8 +78,7 @@
                             <label for="password" class="sr-only"
                               >Password</label
                             >
-                            <input
-                              id="password"
+                            <vee-field
                               name="password"
                               type="password"
                               autocomplete="current-password"
@@ -131,7 +134,21 @@
             Sign in
           </button> -->
                         </div>
-                      </form>
+                        <button
+                          type="submit"
+                          class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          <span
+                            class="absolute inset-y-0 left-0 flex items-center pl-3"
+                          >
+                            <LockClosedIcon
+                              class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                              aria-hidden="true"
+                            />
+                          </span>
+                          <button type="submit">Log in</button>
+                        </button>
+                      </vee-form>
                       <p class="text-sm text-gray-500">
                         Are you sure you want to deactivate your account? All of
                         your data will be permanently removed. This action
@@ -142,10 +159,10 @@
                 </div>
               </div>
               <!-- Buttons -->
-              <div
+              <!-- <div
                 class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
               >
-                <!-- <button
+                <button
                   type="button"
                   class="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
                   @click="this.isOpen = false"
@@ -159,7 +176,7 @@
                   ref="cancelButtonRef"
                 >
                   Cancel
-                </button> -->
+                </button>
                 <button
                   type="submit"
                   class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -172,9 +189,9 @@
                       aria-hidden="true"
                     />
                   </span>
-                  Sign in
+                  <button type="submit">Log in</button>
                 </button>
-              </div>
+              </div> -->
               <!-- Buttons End-->
             </DialogPanel>
           </TransitionChild>
@@ -188,6 +205,8 @@
 import LoginForm from "./LoginForm.vue";
 import { mapStores, mapWritableState } from "pinia";
 import useModalStore from "../stores/counter";
+import useUserStore from "../stores/user";
+import { auth } from "../includes/firebase";
 import { ref } from "vue";
 import {
   Dialog,
@@ -202,6 +221,7 @@ export default {
   computed: {
     ...mapStores(useModalStore),
     ...mapWritableState(useModalStore, ["isOpen"]),
+    ...mapWritableState(useUserStore, ["authenticate", "userLoggedIn"]),
   },
   data() {
     return {
@@ -215,6 +235,21 @@ export default {
     TransitionChild,
     TransitionRoot,
     LoginForm,
+  },
+  methods: {
+    async onLog(values) {
+      console.log("The login values:" + values.email);
+
+      try {
+        await this.authenticate(values);
+      } catch (error) {
+        console.log("Authenticate failed");
+      }
+
+      if (this.userLoggedIn == true) {
+        this.isOpen = false;
+      }
+    },
   },
 };
 </script>

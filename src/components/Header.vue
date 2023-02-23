@@ -217,10 +217,18 @@
             >Sign in</a
           > -->
           <a
+            v-if="!userStore.userLoggedIn"
             @click="toggleModal"
             href="#"
             class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
             >Log In</a
+          >
+          <a
+            v-else
+            @click="signOut"
+            href="#"
+            class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+            >Log Out</a
           >
         </div>
       </div>
@@ -322,7 +330,7 @@
 </template>
 
 <script>
-import { mapStores } from "pinia";
+import { mapStores, mapWritableState } from "pinia";
 import useModalStore from "../stores/counter";
 import {
   Popover,
@@ -345,6 +353,7 @@ import {
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+import useUserStore from "../stores/user";
 
 export default {
   name: "Header",
@@ -445,6 +454,10 @@ export default {
       this.modalStore.isOpen = !this.modalStore.isOpen;
       console.log(this.modalStore.isOpen);
     },
+    signOut() {},
+  },
+  computed: {
+    ...mapStores(useUserStore),
   },
 };
 </script>

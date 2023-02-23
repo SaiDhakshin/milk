@@ -14,8 +14,10 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.10",
     "@heroicons/vue": "^2.0.16",
+    "@vee-validate/rules": "^4.7.4",
     "firebase": "^8.10.1",
-    "pinia": "^2.0.28",
+    "pinia": "^2.0.32",
+    "vee-validate": "^4.7.4",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
