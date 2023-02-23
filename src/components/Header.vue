@@ -225,7 +225,7 @@
           >
           <a
             v-else
-            @click="signOut"
+            @click.prevent="userStore.signOut"
             href="#"
             class="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
             >Log Out</a
@@ -330,7 +330,7 @@
 </template>
 
 <script>
-import { mapStores, mapWritableState } from "pinia";
+import { mapStores, mapActions } from "pinia";
 import useModalStore from "../stores/counter";
 import {
   Popover,
@@ -359,6 +359,7 @@ export default {
   name: "Header",
   computed: {
     ...mapStores(useModalStore),
+    ...mapStores(useUserStore),
   },
   components: {
     Popover,
@@ -454,10 +455,6 @@ export default {
       this.modalStore.isOpen = !this.modalStore.isOpen;
       console.log(this.modalStore.isOpen);
     },
-    signOut() {},
-  },
-  computed: {
-    ...mapStores(useUserStore),
   },
 };
 </script>

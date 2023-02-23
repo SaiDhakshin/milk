@@ -44,6 +44,7 @@ export default defineStore("user", {
     async signOut() {
       await auth.signOut();
       this.userLoggedIn = false;
+      console.log("Cleared Firebase");
     },
   },
 });
