@@ -32,6 +32,8 @@ export default defineStore("user", {
       });
 
       this.username = values.name;
+
+      console.log("Username: " + this.username + ";;" + values.name);
       this.userLoggedIn = true;
     },
     async authenticate(values) {
@@ -41,7 +43,7 @@ export default defineStore("user", {
         values.password
       );
 
-      this.username = values.name;
+      this.username = values.email;
       this.userLoggedIn = true;
     },
     async signOut() {

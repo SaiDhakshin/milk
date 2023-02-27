@@ -7,16 +7,23 @@
         <h3 class="text-base font-semibold leading-6 text-gray-900">
           Hi,{{ this.username }}
         </h3>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          Personal details and application.
-        </p>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">Check Your Details.</p>
       </div>
       <div class="border-t border-gray-200">
         <dl>
           <div
             class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
           >
-            <dt class="text-sm font-medium text-gray-500">Full name</dt>
+            <dt class="text-sm font-medium text-gray-500">
+              <div class="m-4">
+                <label for="start-date">Start Date</label>
+                <input id="start-date" type="date" v-model="startDate" />
+              </div>
+              <div class="py-4">
+                <label for="end-date">End Date</label>
+                <input id="end-date" type="date" v-model="endDate" />
+              </div>
+            </dt>
             <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               Margot Foster
             </dd>
@@ -126,7 +133,10 @@ import useUserStore from "../stores/user";
 export default {
   name: "Landing",
   data() {
-    return {};
+    return {
+      startDate: "",
+      endDate: "",
+    };
   },
   components: {
     Header,
