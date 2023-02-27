@@ -257,6 +257,10 @@ export default {
 
       if (this.userLoggedIn == true) {
         this.isOpen = false;
+
+        setTimeout(() => {
+          this.$router.push("/landing");
+        }, 2000);
       }
     },
   },

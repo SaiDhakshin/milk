@@ -17,6 +17,11 @@ const routes = [
     name: "about",
     component: () => import("../components/Home.vue"),
   },
+  {
+    path: "/landing",
+    name: "landing",
+    component: () => import("../components/Landing.vue"),
+  },
 ];
 
 const router = createRouter({

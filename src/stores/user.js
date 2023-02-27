@@ -5,6 +5,7 @@ import useCounterStore from "./counter";
 
 export default defineStore("user", {
   state: () => ({
+    username: "",
     userLoggedIn: false,
   }),
   actions: {
@@ -30,6 +31,7 @@ export default defineStore("user", {
         displayName: values.name,
       });
 
+      this.username = values.name;
       this.userLoggedIn = true;
     },
     async authenticate(values) {
@@ -39,11 +41,13 @@ export default defineStore("user", {
         values.password
       );
 
+      this.username = values.name;
       this.userLoggedIn = true;
     },
     async signOut() {
       await auth.signOut();
       this.userLoggedIn = false;
+      this.username = "";
       console.log("Cleared Firebase");
     },
   },

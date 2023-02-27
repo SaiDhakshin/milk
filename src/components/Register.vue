@@ -158,6 +158,10 @@ export default {
       this.reg_alert_msg = "Success! Your account has been created.";
 
       console.log(values);
+
+      setTimeout(() => {
+        this.$router.push("/landing");
+      }, 2000);
     },
   },
   data() {
