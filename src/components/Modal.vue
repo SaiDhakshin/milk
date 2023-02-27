@@ -54,6 +54,7 @@
                     </h2>
                     <div class="mt-2">
                       <vee-form
+                        :validation-schema="schema"
                         @submit="onLog"
                         class="mt-8 space-y-6"
                         action="#"
@@ -73,6 +74,7 @@
                               class="space-px relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                               placeholder="Email address"
                             />
+                            <ErrorMessage name="email" />
                           </div>
                           <div>
                             <label for="password" class="sr-only"
@@ -226,6 +228,13 @@ export default {
   data() {
     return {
       open: this.isOpen,
+      schema: {
+        email: "min:3|required|email",
+
+        password: "required",
+        // confirmpassword: "confirmed:@password|required",
+        // Country: "required|excluded:Asia",
+      },
     };
   },
   components: {

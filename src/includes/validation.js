@@ -35,8 +35,21 @@ export default {
           required: `The field ${ctx.field} is required`,
           min: `The field ${ctx.field} is too short`,
           max: `The field ${ctx.field} is too long`,
+          alphaSpaces: `The field ${ctx.field} may only contain alpha spaces`,
+          email: `The field ${ctx.field} is not a valid email address`,
+          confirmed: `The field ${ctx.field} does not match the confirmation`,
+          excluded: `The field ${ctx.field} is not one of the excluded values`,
+          notOneOf: `The field ${ctx.field} is not one of the allowed values`,
         };
+        const message = messages[ctx.rule.name]
+          ? messages[ctx.rule.name]
+          : `The Field ${ctx.field} is invalid.`;
+        return message;
       },
+      validateOnBlur: true,
+      validateOnChange: true,
+      validateOnInput: false,
+      validateOnModelUpdate: true,
     });
   },
 };

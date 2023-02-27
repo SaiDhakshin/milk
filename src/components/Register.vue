@@ -37,15 +37,33 @@
           Sign in to your account
         </h2>
       </div>
-      <vee-form class="mt-8 space-y-6" @submit="onRegister">
+      <!-- Alert Box -->
+      <div
+        class="text-black text-center font-bold p-4 rounded mb-4"
+        v-if="reg_show_alert"
+        :class="reg_alert_variant"
+      >
+        {{ reg_alert_msg }}
+      </div>
+      <!-- Alert Box End-->
+      <vee-form
+        :validation-schema="schema"
+        class="mt-8 space-y-6"
+        @submit="onRegister"
+      >
         <input type="hidden" name="remember" value="true" />
         <div class="-space-y-px rounded-md shadow-sm">
           <div>
             <vee-field
+              id="name"
               name="name"
               type="text"
               class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               placeholder="First name"
+            />
+            <ErrorMessage
+              class="text-red-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              name="name"
             />
           </div>
           <div>
@@ -56,6 +74,10 @@
               class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               placeholder="Email address"
             />
+            <ErrorMessage
+              class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-red-900 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              name="email"
+            />
           </div>
           <div>
             <label for="password" class="sr-only">Password</label>
@@ -64,6 +86,10 @@
               type="password"
               class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               placeholder="Password"
+            />
+            <ErrorMessage
+              class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-red-900 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              name="password"
             />
           </div>
         </div>
@@ -92,6 +118,7 @@
 
         <div>
           <button
+            :disabled="reg_in_submission"
             class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -121,8 +148,33 @@ export default {
       createUser: "Register",
     }),
     async onRegister(values) {
+      this.reg_in_submission = true;
+      this.reg_show_alert = true;
+      this.reg_alert_variant = "bg-blue-500";
+      this.reg_alert_msg = "Please wait! Your account is being created.";
       this.createUser(values);
+
+      this.reg_alert_variant = "bg-green-500 text-white";
+      this.reg_alert_msg = "Success! Your account has been created.";
+
+      console.log(values);
     },
+  },
+  data() {
+    return {
+      schema: {
+        name: "required|min:3|max:100|alpha_spaces",
+        email: "required|email",
+
+        password: "required|min:4",
+        // confirmpassword: "confirmed:@password|required",
+        // Country: "required|excluded:Asia",
+      },
+      reg_in_submission: false,
+      reg_show_alert: false,
+      reg_alert_variant: "bg-blue-500",
+      reg_alert_msg: "Please wait! Your account is being created.",
+    };
   },
 };
 </script>
