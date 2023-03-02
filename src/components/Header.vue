@@ -104,10 +104,10 @@
             </transition>
           </Popover> -->
 
-          <a
-            href="#"
+          <RouterLink
             class="text-base font-medium text-gray-500 hover:text-gray-900"
-            >Home</a
+            to="/home"
+            >Home</RouterLink
           >
 
           <RouterLink

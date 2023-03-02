@@ -5,7 +5,7 @@
     <div class="overflow-hidden bg-white shadow sm:rounded-lg">
       <div class="px-4 py-5 sm:px-6">
         <h3 class="text-base font-semibold leading-6 text-gray-900">
-          Hi,{{ this.username }}
+          Hi,{{ this.user }}
         </h3>
         <p class="mt-1 max-w-2xl text-sm text-gray-500">Check Your Details.</p>
       </div>
@@ -121,6 +121,7 @@
         </dl>
       </div>
     </div>
+    <Upload ref="upload"></Upload>
   </div>
 </template>
 
@@ -129,6 +130,8 @@ import Header from "../components/Header.vue";
 import { PaperClipIcon } from "@heroicons/vue/20/solid";
 import { mapStores, mapWritableState } from "pinia";
 import useUserStore from "../stores/user";
+import Upload from "../components/Upload.vue";
+import { auth } from "../includes/firebase";
 
 export default {
   name: "Landing",
@@ -136,11 +139,13 @@ export default {
     return {
       startDate: "",
       endDate: "",
+      user: "" || auth.currentUser.displayName,
     };
   },
   components: {
     Header,
     PaperClipIcon,
+    Upload,
   },
   computed: {
     ...mapStores(useUserStore),

@@ -18,6 +18,11 @@ const routes = [
     component: () => import("../components/Home.vue"),
   },
   {
+    path: "/home",
+    name: "home",
+    component: () => import("../components/Home.vue"),
+  },
+  {
     path: "/landing",
     name: "landing",
     component: () => import("../components/Landing.vue"),
