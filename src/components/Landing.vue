@@ -121,7 +121,20 @@
         </dl>
       </div>
     </div>
-    <Upload ref="upload"></Upload>
+    <Upload ref="upload" :addSong="addSong"></Upload>
+
+    <!-- From Firebase -->
+
+    <FileItem
+      v-for="(song, index) in songs"
+      :key="song.docID"
+      :song="song"
+      :updateItem="updateItem"
+      :deleteItem="deleteItem"
+      :index="index"
+    ></FileItem>
+
+    <!-- From Firebase End-->
   </div>
 </template>
 
@@ -131,25 +144,53 @@ import { PaperClipIcon } from "@heroicons/vue/20/solid";
 import { mapStores, mapWritableState } from "pinia";
 import useUserStore from "../stores/user";
 import Upload from "../components/Upload.vue";
-import { auth } from "../includes/firebase";
+import { auth, fileCollection } from "../includes/firebase";
+import FileItem from "./FileItem.vue";
 
 export default {
   name: "Landing",
+  async created() {
+    const snapshot = await fileCollection
+      .where("uid", "==", auth.currentUser.uid)
+      .get();
+
+    snapshot.forEach((document) => {
+      const song = {
+        ...document.data(),
+        docID: document.id,
+      };
+
+      this.songs.push(song);
+      console.log(song);
+    });
+  },
   data() {
     return {
       startDate: "",
       endDate: "",
       user: "" || auth.currentUser.displayName,
+      songs: [],
     };
   },
   components: {
     Header,
     PaperClipIcon,
     Upload,
+    FileItem,
   },
   computed: {
     ...mapStores(useUserStore),
     ...mapWritableState(useUserStore, ["username"]),
+  },
+  methods: {
+    updateItem(i, values) {
+      this.songs[i].original_name = values.original_name;
+      this.songs[i].display_name = values.display_name;
+    },
+    deleteItem(index) {
+      this.songs.splice(index, 1);
+    },
+    addSong() {},
   },
 };
 </script>

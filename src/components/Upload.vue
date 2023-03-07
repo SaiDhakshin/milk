@@ -76,6 +76,7 @@ export default {
       uploads: [],
     };
   },
+  props: ["addSong"],
   methods: {
     upload($event) {
       const files = $event.dataTransfer
@@ -122,11 +123,13 @@ export default {
             };
 
             song.url = await task.snapshot.ref.getDownloadURL();
-            await fileCollection.add(song);
+            const songRef = await fileCollection.add(song);
+            console.log("SongRef:" + songRef.data);
 
             this.uploads[uploadIndex].variant = "bg-green-400";
             this.uploads[uploadIndex].icon = "fas fa-check";
             this.uploads[uploadIndex].text_class = "text-green-400";
+            this.addSong(songRef);
           }
         );
         console.log("File Uploaded");
